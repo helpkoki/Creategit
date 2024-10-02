@@ -75,7 +75,7 @@ if (isset($_POST['login'])) {
             <div style="display:flex;width:100%">
                 <div style="width:50%;margin-left:-1%">
                     <img src="../../../public/assets/images/logo.png
-                    " class="" style="width:30%;float:left"
+                    " class="" style="width:30%;float:left"rm
                         onclick="window.location.href='index.php'">
                 </div>
                 <div style="width:50%;display:flex;">
@@ -162,7 +162,7 @@ if (isset($_POST['login'])) {
                         </tr>
                         <tr>
                             <td><input class="submit_btn" type="submit" value="Login" id="myButton" name="login"></td>
-                            <td> <input class="clear_btn" type="submit" value="Clear" name="clear" / onclick="clearField()">
+                            <td> <input class="clear_btn" type="submit" value="Clear" name="clear"  onclick="clearField()">
                             </td>
                             <td></td>
 
