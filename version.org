@@ -9,9 +9,15 @@ This project is a learning exercise to demonstrate how to create a basic version
 * Getting Started: Implementing =git init=
 The first entry point for any Git-like system is the ~git init~ command. Our goal is to implement this command to initialize a new repository. 
 
-In Git, a project consists of two main components:
-1. The project files.
+
 2. The hidden directory called =.git= (or, in our case, =.getdir=).
+
+In Git, a project has two main components:
+  1. The project files themselves(called work tree).
+  2. The hidden directory called =.git= (or, in our case, =.getdir=).
+
+Our program must check if the =.getdir= already exists. If it does, we’ll know that the project is already under version control. If not, we'll need to create it.
+
 
 **Conceptually, the process is as follows:**
 1. Check if the directory =.getdir= exists.
