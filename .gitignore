@@ -5,3 +5,13 @@ pratices file/
 
 #Ingnore the 'test ' file
 test /
+
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore virtual environment
+venv/
+
+# Ignore system files
+.DS_Store
