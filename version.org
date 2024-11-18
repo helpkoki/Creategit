@@ -1,83 +1,128 @@
 #+TITLE: How to Create Your Own Git System
 #+AUTHOR: Your Name
 #+DATE: 2024-11-18
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:t
 
 * Introduction
-This project is a learning exercise to demonstrate how easy it is to create a basic version control system similar to Git. We'll walk through building a simplified version of Git that handles project initialization and object storage.
+This project is a learning exercise to demonstrate how to create a basic version control system similar to Git. We will walk through building a simplified version of Git that handles project initialization and object storage. This guide covers setting up a minimal system that includes repository initialization, basic command-line interaction, and handling cross-platform compatibility.
 
 * Getting Started: Implementing =git init=
-The first entry point of any Git system is the =git init= command. Our goal is to implement this command to initialize a new repository. But how can we do this?
+The first entry point for any Git-like system is the ~git init~ command. Our goal is to implement this command to initialize a new repository. 
 
-In Git, a project has two main components:
-  1. The project files themselves.
-  2. The hidden directory called =.git= (or, in our case, =.getdir=).
+In Git, a project consists of two main components:
+1. The project files.
+2. The hidden directory called =.git= (or, in our case, =.getdir=).
 
-Our program must check if the =.getdir= already exists. If it does, we’ll know that the project is already under version control. If not, we'll need to create it.
-
-**Conceptually, the process is simple:**
-
+**Conceptually, the process is as follows:**
 1. Check if the directory =.getdir= exists.
-2. If not, create it and initialize the necessary files inside it.
-3. If it exists, alert the user that the project is already initialized.
+2. If it doesn't, create it along with the necessary subdirectories and files.
+3. If it does, notify the user that the project is already initialized.
 
 * The Challenge: Using It from the Command Line
-You might be thinking, "Wait, it can't be that easy!" — and you're right. Writing a basic version control system in code is straightforward. You could do it in your sleep! But the real challenge begins when you want to interact with your program using the command line.
+You might be thinking, "Wait, it can't be that easy!" — and you're right. Writing a basic version control system in code is straightforward, but the real challenge begins when you want to interact with your program using the command line.
 
-* Handling Cross-Platform Compatibility
-To make your version control system usable from the terminal, you need to integrate it with the shell environment. This is where things get tricky, especially on different operating systems:
-
-- On **Linux** and **macOS**, you can easily use Bash to run your commands.
-- On **Windows**, however, Bash isn't available by default. You can overcome this limitation by using the Windows Subsystem for Linux (WSL), which provides a Linux-compatible environment on Windows.
+**Cross-Platform Compatibility:**
+- On *Linux* and *macOS*, you can easily use Bash to run your commands.
+- On *Windows*, Bash isn't available by default, but you can use the Windows Subsystem for Linux (WSL) to provide a Linux-compatible environment.
 
 * Implementation Plan
-Here’s a step-by-step breakdown of what you’ll need to do:
+Here’s a step-by-step breakdown of what you need to do:
 
 **Step 1: Initialize the Project**
-- Create a new script called =mygit.py= (or any language of your choice).
+- Create a new script called =mygit.py=.
 - Check if the =.getdir= directory exists.
   - If it doesn’t, create the directory and necessary files.
   - If it does, print a message like "Repository already initialized."
 
 **Step 2: Adding Command-Line Support**
 - Make your script executable from the command line.
-- For Linux/macOS, use a shebang (`#!/usr/bin/env python`) and grant execute permissions (`chmod +x mygit.py`).
-- For Windows, use WSL or create a batch file wrapper.
+  - For Linux/macOS: Use a shebang (~/usr/bin/env python3~) and grant execute permissions (~chmod +x mygit.py~).
+  - For Windows: Use WSL or create a batch file wrapper.
 
 **Step 3: Testing Your Git System**
-- Run the script to ensure that =git init= (or =mygit init=) works as expected.
+- Run the script to ensure that ~git init~ (or ~mygit init~) works as expected.
 - Verify that a =.getdir= folder is created with the necessary structure.
 
-* Example Code Snippet
-Here’s a simple example of how you might start coding this:
+* Example Code: Repository Initialization
+Below is a Python implementation of the repository initialization process.
 
 #+BEGIN_SRC python
 import os
-import sys
 
-def init():
-    if os.path.exists('.getdir'):
-        print("Repository already initialized.")
-    else:
-        os.mkdir('.getdir')
-        print("Initialized empty Git repository in .getdir/")
+class GitInit:
+    def __init__(self, path):
+        self.worktree = path
+        self.getdir = os.path.join(path, '.getdir')
+        self.initialize_repo()
 
+    def initialize_repo(self):
+        if os.path.exists(self.getdir):
+            print("Git directory already exists. Reinitialization not needed.")
+        else:
+            self.create_repo()
+
+    def create_repo(self):
+        try:
+            # Create the .getdir directory and its subdirectories
+            os.makedirs(os.path.join(self.getdir, "objects"))
+            os.makedirs(os.path.join(self.getdir, "refs"))
+
+            # Create the HEAD file with a reference to the main branch
+            head_path = os.path.join(self.getdir, "HEAD")
+            with open(head_path, "w") as f:
+                f.write("ref: refs/heads/main\n")
+
+            print(f"Initialized empty Git repository in {self.getdir}")
+
+        except Exception as e:
+            print(f"Error during repository initialization: {e}")
+
+# Usage example
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "init":
-        init()
-    else:
-        print("Usage: mygit init")
+    try:
+        GitInit(os.getcwd())
+    except Exception as e:
+        print(e)
 #+END_SRC
 
+* Making It Usable from the Command Line
+Let's take it one step further by making your script callable from the command line:
+
+1. **Create a Bash Wrapper (for Linux/macOS)**
+   Create a new script named =vcs= with the following content:
+
+   #+BEGIN_SRC bash
+   #!/usr/bin/env python3
+   import mygit
+   mygit.GitInit(".")
+   #+END_SRC
+
+2. **Make the Bash Script Executable**
+   #+BEGIN_SRC sh
+   chmod +x vcs
+   #+END_SRC
+
+3. **Add to Your PATH for Easy Access**
+   #+BEGIN_SRC sh
+   which vcs  # Note the full path
+   export PATH=$PATH:/path/to/your/script
+   #+END_SRC
+
+4. **Test the Command**
+   #+BEGIN_SRC sh
+   vcs
+   #+END_SRC
+
+   Now, you can run ~vcs~ from any directory to initialize a new repository.
+
 * Conclusion
-Congratulations! You've just laid the groundwork for creating your own version control system. While this is a very basic implementation, it introduces you to the core concepts behind Git.
+Congratulations! You've just laid the groundwork for creating your own version control system. While this is a very basic implementation, it introduces you to the core concepts behind Git. You can expand this project by adding features like:
 
-- To expand this project, consider adding features like:
-  - Staging files.
-  - Committing changes.
-  - Viewing logs.
-  - Branching and merging.
-
-Org-mode allows you to document the process, code, and plans in an organized manner, making it a great tool for project management and documentation.
+- Staging files.
+- Committing changes.
+- Viewing logs.
+- Branching and merging.
 
 **Happy Coding!**
+
+Org-mode allows you to document the process, code, and plans in an organized manner, making it a great tool for project management and documentation.

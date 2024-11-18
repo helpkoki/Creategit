@@ -1,65 +1,37 @@
-import argparse
-import collections
-import configparser
-from datetime import datetime
-import grp, pwd
-from fnmatch import fnmatch
-import hashlib
-from math import ceil
 import os
-import re
-import sys
-import zlib
 
-
-class GitRepository (object):
-    """A git repository"""
-
+class getInit(object):
     worktree = None
-    gitdir = None
-    conf = None
+    getdir = None
 
-    def __init__(self, path, force=False):
-       self.worktree =path
-       self.gitdir =os.path.join(self.worktree ,'.git')
-      
-       print(self.worktree)  
-       print(self.gitdir)
+    def __init__(self, path):
+        self.worktree = path
+        self.getdir = os.path.join(path, '.git')
+        # Check if Git repository (.git) exists than act accouding
+        self.check_repo()
 
-       if not (force or os.path.isdir(self.gitdir)):
-           raise Exception("Not a git repository: %s" % self.worktree)
-       
-       self.conf =configparser.ConfigParser()
-       cf =self.repo_file(self ,'config')
-       print(cf)
-
-
-    def repo_path(repo, *path):
-    # """Compute path under repo's gitdir."""
-     return os.path.join(repo.gitdir, *path)
-    
-    
-    def repo_file(repo, *path, mkdir=False):
-        #     """Same as repo_path, but create dirname(*path) if absent.  For
-        # example, repo_file(r, \"refs\", \"remotes\", \"origin\", \"HEAD\") will create
-        # .git/refs/remotes/origin."""
-
-     if repo_dir(repo, *path[:-1], mkdir=mkdir):
-        return repo_path(repo, *path)
-
-def repo_dir(repo, *path, mkdir=False):
-    """Same as repo_path, but mkdir *path if absent if mkdir."""
-
-    path = repo_path(repo, *path)
-
-    if os.path.exists(path):
-        if (os.path.isdir(path)):
-            return path
+    # Check if Git repository (.git) exists
+    def check_repo(self):
+        if os.path.exists(self.getdir):
+            raise Exception('Git directory already exists. Reinitialize the Git repository.')
         else:
-            raise Exception("Not a directory %s" % path)
+            self.create_repo()
 
-    if mkdir:
-        os.makedirs(path)
-        return path
-    else:
-        return None
+    def create_repo(self):
+        try:
+            # Create the .git directory and its subdirectories in the specified worktree path
+            os.mkdir(self.getdir)
+            os.mkdir(os.path.join(self.getdir, "objects"))
+            os.mkdir(os.path.join(self.getdir, "refs"))
+            
+            # Create the HEAD file with a reference to the main branch
+            head_path = os.path.join(self.getdir, "HEAD")
+            with open(head_path, "w") as f:
+                f.write("ref: refs/heads/main\n")
+            
+            print(f"Initialized empty Git repository in {self.getdir}")
+
+        except FileExistsError:
+            print("Git directory already exists. No need to reinitialize.")
+        except Exception as e:
+            print(f"Error during repository initialization: {e}")
