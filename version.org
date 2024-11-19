@@ -84,10 +84,6 @@ class GitInit:
         except Exception as e:
             print(f"Error during repository initialization: {e}")
 
-# Usage example
-import os
-import sys
-from gitInt import getInit  # Make sure my_git.py is in the same directory or in your Python path
 
 # Initialize the repository in the current working directory
  
@@ -96,6 +92,10 @@ from gitInt import getInit  # Make sure my_git.py is in the same directory or in
 
  **This file should be called start.py and it must be in the same dictoreis as getInit.py**
 #+BEGIN_SRC python
+# Usage example
+import os
+import sys
+from gitInit import getInit  # Make sure gitInit.py is in the same directory or in your Python path
 
 def  main(argv=sys.argv[1:]):
     try:
