@@ -21,6 +21,17 @@ argsp.add_argument("path",
 # `cat-file` command
 argsp = argsubparsers.add_parser("cat-file",
                                   help="Provide the object referred to by SHA-1")
+argsp.add_argument(
+                        "-t",
+                        action="store_true",
+                        help="Show the type of the Git object.",
+                    )
+argsp.add_argument(
+                    "-p",
+                    action="store_true",
+                    help="Print the content of the Git object.",
+                )
+
 argsp.add_argument("sha1", 
                     metavar="sha1",
                     help="The SHA-1 hash of the object to examine.")
@@ -47,5 +58,10 @@ def  get_init(args):
         print(e)
 
 def  get_cat_file(args):
-     print(args)
-     x =getObjects()
+     print(args) 
+      #  print(args.p)
+    #  if  args.t :
+    #      print("type")
+    #      if  args.p :
+    #          print("NOT")'
+     x =getObjects(args.sha1 )
