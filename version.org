@@ -143,6 +143,4 @@ Congratulations! You've just laid the groundwork for creating your own version c
 - Viewing logs.
 - Branching and merging.
 
-**Happy Coding!**
 
-Org-mode allows you to document the process, code, and plans in an organized manner, making it a great tool for project management and documentation.

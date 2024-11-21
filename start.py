@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 from getInit import getInit  # Make sure gitInit.py is in the same directory or in your Python path
-from getObjects import getObjects
+from getObjects import GitObject
 # Initialize the repository in the current working directory
 
 argparser = argparse.ArgumentParser(description="The stupidest content tracker")
@@ -58,10 +58,12 @@ def  get_init(args):
         print(e)
 
 def  get_cat_file(args):
-     print(args) 
+    #  print(args) 
       #  print(args.p)
     #  if  args.t :
     #      print("type")
     #      if  args.p :
     #          print("NOT")'
-     x =getObjects(args.sha1 )
+     git_obj =GitObject(args.sha1 )
+     git_obj.cat_file_t()
+     git_obj.cat_file_p()
