@@ -58,12 +58,19 @@ def  get_init(args):
         print(e)
 
 def  get_cat_file(args):
-    #  print(args) 
-      #  print(args.p)
-    #  if  args.t :
-    #      print("type")
-    #      if  args.p :
-    #          print("NOT")'
+     print(args) 
      git_obj =GitObject(args.sha1 )
-     git_obj.cat_file_t()
-     git_obj.cat_file_p()
+     if  args.t :
+         print("args.t")
+         git_obj.cat_file_t()
+     elif args.p :
+             print('args.p')
+             git_obj.cat_file_p()  
+     elif args.p and args.t:
+          print("please choose one between -p and -t")
+     else:
+          print('One ')
+
+    #  git_obj =GitObject(args.sha1 )
+    #  git_obj.cat_file_t()
+    #  git_obj.cat_file_p()
