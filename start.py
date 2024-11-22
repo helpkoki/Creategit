@@ -61,15 +61,13 @@ def  get_cat_file(args):
      print(args) 
      git_obj =GitObject(args.sha1 )
      if  args.t :
-         print("args.t")
          git_obj.cat_file_t()
      elif args.p :
-             print('args.p')
              git_obj.cat_file_p()  
      elif args.p and args.t:
           print("please choose one between -p and -t")
      else:
-          print('One ')
+          print('Error incorrect run startment  ')
 
     #  git_obj =GitObject(args.sha1 )
     #  git_obj.cat_file_t()
