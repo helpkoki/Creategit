@@ -13,13 +13,6 @@ The first entry point for any Git-like system is the ~git init~ command. Our goa
 1. The project files (work tree).
 2. A hidden directory for version control metadata (we’ll use =.getdir= instead of =.git=).
 
-**Process**:
-1. Check if the =.getdir= directory exists.
-   - If it exists, notify the user that the repository is already initialized.
-2. If it doesn't exist:
-   - Create the =.getdir= directory along with its subdirectories.
-   - Set up necessary files like =HEAD=.
-
 * Chapter Overview
 This project is structured into six chapters, focusing on different aspects of the system:
 1. **Project Initialization**: Setting up the repository structure.
@@ -127,7 +120,7 @@ export PATH=$PATH:/path/to/your/script
 **Step 4: Test the Command**
 Run the following to initialize a repository:
 #+BEGIN_SRC sh
-vcs
+vcs init
 #+END_SRC
 
 * Conclusion
@@ -137,4 +130,11 @@ Congratulations! You’ve built the foundation for a version control system. Thi
 - Viewing logs.
 - Implementing branching and merging.
 
-Happy coding!
+* Chapter 2: Implementing functionality to read data objects
+This chapter focuses on implementing the =git cat-file= command.
+
+**Conceptual Overview**:
+1. Check if the directory =.getdir= exists.
+2. If not, tell the user to create init.
+3. If it already exists, check if the object 
+4. Read the contents of the =.git/objects/xx/yy= file, where
