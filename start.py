@@ -36,7 +36,7 @@ argsp.add_argument("sha1",
                     metavar="sha1",
                     help="The SHA-1 hash of the object to examine.")
 #the hash-object command
-argsp = argsubparsers.add_parser(
+argsp = argsubparsers.hash(
     "hash-object",
     help="Compute object ID and optionally creates a blob from a file")
 

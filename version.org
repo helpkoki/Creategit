@@ -138,3 +138,26 @@ This chapter focuses on implementing the =git cat-file= command.
 2. If not, tell the user to create init.
 3. If it already exists, check if the object 
 4. Read the contents of the =.git/objects/xx/yy= file, where
+
+add the command input to the start.py
+#+BEGIN_SRC python
+argsp = argsubparsers.add_parser("cat-file",
+                                  help="Provide the object referred to by SHA-1")
+argsp.add_argument(
+                        "-t",
+                        action="store_true",
+                        help="Show the type of the Git object.",
+                    )
+argsp.add_argument(
+                    "-p",
+                    action="store_true",
+                    help="Print the content of the Git object.",
+                )
+
+argsp.add_argument("sha1", 
+                    metavar="sha1",
+                    help="The SHA-1 hash of the object to examine.")
+
+#+END_SRC
+
+with this we should be able to 
