@@ -26,7 +26,7 @@ This project is structured into six chapters, focusing on different aspects of t
 This chapter focuses on implementing the =git init= command.
 
 **Conceptual Overview**:
-1. Check if the directory =.getdir= exists.
+1. Check if the directory =.git= exists.
 2. If not, create it along with necessary subdirectories and files.
 3. If it already exists, notify the user that the repository is initialized.
 
@@ -42,7 +42,7 @@ This chapter focuses on implementing the =git init= command.
 3. Add command-line support to make the script executable.
 
 **Testing**:
-- Verify that running the script creates a =.getdir= directory with the correct structure.
+- Verify that running the script creates a =.git= directory with the correct structure.
 
 **Example Code: Repository Initialization**
 #+BEGIN_SRC python
@@ -79,8 +79,7 @@ class GitInit:
 # Initialize the repository in the current working directory
 #+END_SRC
 
-**Integrating Command-Line Support**
-Create a wrapper script to handle command-line interactions.
+**Runing the get init**
 
 #+BEGIN_SRC python
 import os
@@ -118,9 +117,9 @@ export PATH=$PATH:/path/to/your/script
 #+END_SRC
 
 **Step 4: Test the Command**
-Run the following to initialize a repository:
+Run the following to initialize a repository(on a cli that uses bash):
 #+BEGIN_SRC sh
-vcs init
+vcs 
 #+END_SRC
 
 * Conclusion
@@ -134,9 +133,9 @@ Congratulations! You’ve built the foundation for a version control system. Thi
 This chapter focuses on implementing the =git cat-file= command.
 
 **Conceptual Overview**:
-1. Check if the directory =.getdir= exists.
+1. Check if the directory =.git= exists.
 2. If not, tell the user to create init.
-3. If it already exists, check if the object 
+3. If it already exists, check if the object exists
 4. Read the contents of the =.git/objects/xx/yy= file, where
 
 add the command input to the start.py

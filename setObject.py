@@ -18,7 +18,7 @@ class setObject(object):
         with open(file_path, 'r') as f:
           content = f.read()
           size = len(content)  # Calculate size in bytes
-          wrapped = f"blob {size}\0{content}"
+          wrapped = f"blob {size}\0{content}".encode('utf-8')
           return wrapped
           
 
