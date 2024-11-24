@@ -11,7 +11,7 @@ __pycache__/
 *.pyc
 
 # Ignore virtual environment
-venv/
+one/
 
 # Ignore system files
 .DS_Store
