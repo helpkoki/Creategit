@@ -122,6 +122,7 @@ Run the following to initialize a repository(on a cli that uses bash):
 vcs 
 #+END_SRC
 
+
 * Conclusion
 Congratulations! You’ve built the foundation for a version control system. This simple implementation introduces you to key Git concepts. Next steps could include:
 - Staging files.
