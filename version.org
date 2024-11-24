@@ -1,5 +1,5 @@
 #+TITLE: How to Create Your Own Git System
-#+AUTHOR: Your Name
+#+AUTHOR: Koketso mopai
 #+DATE: 2024-11-18
 #+OPTIONS: toc:t
 
@@ -36,7 +36,7 @@ This chapter focuses on implementing the =git init= command.
 
 **Implementation Plan**:
 1. Create a script called =mygit.py=.
-2. Check if the =.getdir= directory exists:
+2. Check if the =.git= directory exists:
    - If it doesn’t exist, create the directory and files.
    - If it does, print a message like "Repository already initialized."
 3. Add command-line support to make the script executable.
