@@ -3,6 +3,7 @@ import sys
 import argparse
 from getInit import getInit  # Make sure gitInit.py is in the same directory or in your Python path
 from getObjects import GitObject
+from setObject import Object
 # Initialize the repository in the current working directory
 
 argparser = argparse.ArgumentParser(description="The stupidest content tracker")
@@ -21,22 +22,19 @@ argsp.add_argument("path",
 # `cat-file` command
 argsp = argsubparsers.add_parser("cat-file",
                                   help="Provide the object referred to by SHA-1")
-argsp.add_argument(
-                        "-t",
+argsp.add_argument(   "-t",
                         action="store_true",
                         help="Show the type of the Git object.",
                     )
-argsp.add_argument(
-                    "-p",
+argsp.add_argument(  "-p",
                     action="store_true",
                     help="Print the content of the Git object.",
-                )
-
+                  )
 argsp.add_argument("sha1", 
                     metavar="sha1",
                     help="The SHA-1 hash of the object to examine.")
 #the hash-object command
-argsp = argsubparsers.hash(
+argsp = argsubparsers.add_parser(
     "hash-object",
     help="Compute object ID and optionally creates a blob from a file")
 
@@ -90,5 +88,9 @@ def  get_cat_file(args):
           print('Error incorrect run startment  ')
 
 def get_hash_object(args):
-     print()
-    
+    y = Object(args.path)
+    if not(args.write):
+        y.hash_object()
+    else:
+       y.hash_object_write()   
+        

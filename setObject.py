@@ -2,7 +2,7 @@ import hashlib
 import os
 import zlib
 
-class GitObject:
+class Object:
     def __init__(self, file):
         self.worktree = os.getcwd()
         self.gitdir = os.path.join(self.worktree, ".git")
@@ -24,7 +24,7 @@ class GitObject:
             wrapped = f"blob {size}\0{content}".encode('utf-8')
             return wrapped
 
-    def store_object(self):
+    def store_object(self): 
         """Hash the file, compress its content, and store it in the .git/objects directory."""
         wrap = self.wrap_file(self.tohash)
 
@@ -32,6 +32,8 @@ class GitObject:
         sha = hashlib.sha1()
         sha.update(wrap)
         hash_hex = sha.hexdigest()
+        print(hash_hex)
+        print("about to save the git object")
 
         # Create the path for storing the object
         dir_path = os.path.join(self.gitdir, "objects", hash_hex[:2])
@@ -48,3 +50,12 @@ class GitObject:
             w.write(zi_object)
 
         print(f"Object stored: {file_path}")
+
+    def  hash_object(self):
+         sha = hashlib.sha1()
+         sha.update(self.wrap_file(self.tohash))
+         print(sha.hexdigest())
+         return sha.hexdigest()
+    
+    def  hash_object_write(self):
+         self.store_object()
