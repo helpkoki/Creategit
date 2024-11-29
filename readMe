@@ -1,4 +1,4 @@
-# **Learning GitHub Project**
+# Learning GitHub Project
 
 This project is designed to help you understand how GitHub and version control systems (VCS) work under the hood. The instructions provided will guide you through running the project using **WSL** (Windows Subsystem for Linux) on a Windows machine. Compatibility with macOS and Linux is not guaranteed, but feel free to try!
 
