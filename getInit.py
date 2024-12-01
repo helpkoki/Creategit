@@ -35,3 +35,10 @@ class getInit(object):
             print("Git directory already exists. No need to reinitialize.")
         except Exception as e:
             print(f"Error during repository initialization: {e}")
+   
+    
+    def write_to_index():
+        # Write the file to the index
+        print()
+    
+    

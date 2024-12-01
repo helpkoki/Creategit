@@ -90,7 +90,8 @@ def  get_cat_file(args):
 def get_hash_object(args):
     y = Object(args.path)
     if not(args.write):
-        y.hash_object()
+        # y.hash_object()
+         y.update_index()
     else:
        y.hash_object_write()   
         

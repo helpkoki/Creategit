@@ -54,8 +54,46 @@ class Object:
     def  hash_object(self):
          sha = hashlib.sha1()
          sha.update(self.wrap_file(self.tohash))
-         print(sha.hexdigest())
+        #  print(sha.hexdigest())
          return sha.hexdigest()
     
     def  hash_object_write(self):
          self.store_object()
+
+    def update_index(self):
+        indexFile = os.path.join(self.gitdir, "index")
+        
+        # Check if index file exists, create if not
+        if not os.path.exists(indexFile):
+            with open(indexFile, "w") as file:
+                print("Index file created.")
+                pass  # Creates an empty file
+
+        # Get hash value
+        value = self.hash_object()  # Assuming this returns a valid SHA-1 hash.
+        
+        # Format the index entry correctly
+        format_entry = f"100644 {value} 0\t{os.path.basename(self.tohash)}\n"
+        print(format_entry)
+
+        # Write the formatted string to the index file in binary mode
+        with open(indexFile, "ab") as file:  # Append in binary mode
+            file.write(format_entry.encode('utf-8'))
+        
+
+    def read_index(self):
+        indexFile = os.path.join(self.gitdir, "index")
+        
+        if not os.path.exists(indexFile):
+            print("Index file does not exist.")
+            return
+
+        with open(indexFile, "rb") as file:
+            data = file.read().decode('utf-8')  # Read binary and decode to string
+        
+        # Split entries by newline to handle multiple lines
+        entries = data.strip().split("\n")
+        for entry in entries:
+            mode, hash_value, stage, path = entry.split(maxsplit=3)
+            print(f"Mode: {mode}, Hash: {hash_value}, Stage: {stage}, Path: {path}")
+
