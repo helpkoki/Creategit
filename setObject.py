@@ -97,3 +97,14 @@ class Object:
             mode, hash_value, stage, path = entry.split(maxsplit=3)
             print(f"Mode: {mode}, Hash: {hash_value}, Stage: {stage}, Path: {path}")
 
+    def  create_tree(self):
+         index_file = os.path.join(self.gitdir, "index")
+
+         if not os.path.exists(index_file):
+            print("Index file does not exist.")
+            return
+         
+         entries = []
+         with open(index_file ,"r") as f:
+              for line in f :
+                  print(line)  

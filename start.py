@@ -4,6 +4,7 @@ import argparse
 from getInit import getInit  # Make sure gitInit.py is in the same directory or in your Python path
 from getObjects import GitObject
 from setObject import Object
+from GitRepository import GitRepository
 # Initialize the repository in the current working directory
 
 argparser = argparse.ArgumentParser(description="The stupidest content tracker")
@@ -53,7 +54,9 @@ argsp.add_argument("-w",
 argsp.add_argument("path",
                    help="Read object from <file>")
 
-
+argsp = argsubparsers.add_parser(
+    "write-tree",
+    help="Compute object ID and optionally creates a blob from a file")
 
 def  main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
@@ -61,7 +64,9 @@ def  main(argv=sys.argv[1:]):
         case "init"         : get_init(args)
         case "cat-file"     : get_cat_file(args)
         case "hash-object"  : get_hash_object(args)
+        case "write-tree"   : get_write_tree(args)
         case _              : print("Bad command.")
+         
      
     print()
     
@@ -94,4 +99,10 @@ def get_hash_object(args):
          y.update_index()
     else:
        y.hash_object_write()   
+
+def  get_write_tree(args):
+     print(args)
+     git ='.'
+     y =GitRepository()
+     y.create_tree()
         
