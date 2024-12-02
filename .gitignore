@@ -10,8 +10,10 @@ test /
 __pycache__/
 *.pyc
 
+
 # Ignore virtual environment
 one/
+testgit /
 
 # Ignore system files
 .DS_Store

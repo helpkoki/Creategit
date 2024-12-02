@@ -63,12 +63,7 @@ class Object:
     def update_index(self):
         indexFile = os.path.join(self.gitdir, "index")
         
-        # Check if index file exists, create if not
-        if not os.path.exists(indexFile):
-            with open(indexFile, "w") as file:
-                print("Index file created.")
-                pass  # Creates an empty file
-
+        # Check if index file exists, create if not        
         # Get hash value
         value = self.hash_object()  # Assuming this returns a valid SHA-1 hash.
         

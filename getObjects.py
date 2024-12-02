@@ -1,7 +1,7 @@
 import os
 import zlib
 
-class GitObject:
+class GitObject(object):
     def __init__(self, object_hash, force=False):
         self.worktree = os.getcwd()
         self.gitdir = os.path.join(self.worktree, ".git")
