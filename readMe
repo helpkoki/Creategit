@@ -17,3 +17,8 @@ This project is designed to help you understand how GitHub and version control s
    ```bash
    wsl --install
 
+
+### **Step w: Install WSL**w
+. Open a PowerShell window as Administrator and run:
+   ```bash
+   wsl --install
