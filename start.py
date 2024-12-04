@@ -5,6 +5,9 @@ from getInit import getInit  # Make sure gitInit.py is in the same directory or 
 from getObjects import GitObject
 from setObject import Object
 from GitRepository import GitRepository
+from add import one
+from read import GitIndexReader
+from read import decode
 # Initialize the repository in the current working directory
 
 argparser = argparse.ArgumentParser(description="The stupidest content tracker")
@@ -55,14 +58,18 @@ argsp.add_argument("path",
                     help="Read object from <file>")
 
 argsp = argsubparsers.add_parser(
-                                "update-index",
-                                 help="it updates the index used for `add` and `commit` commands")
+        "update-index",
+        help="it updates the index used for `add` and `commit` commands")
+
 argsp.add_argument("path",
                    help="Read object from <file>")
 
 argsp = argsubparsers.add_parser(
     "write-tree",
     help="Compute object ID and optionally creates a blob from a file")
+argsp = argsubparsers.add_parser(
+                                  "test",
+                                   help="it updates the index used for `add` and `commit` commands")
 
 def  main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
@@ -70,8 +77,9 @@ def  main(argv=sys.argv[1:]):
         case "init"         : get_init(args)
         case "cat-file"     : get_cat_file(args)
         case "hash-object"  : get_hash_object(args)
-        case "update_index" : get_update_index(args)
+        case "update-index" : get_update_index(args)
         case "write-tree"   : get_write_tree(args)
+        case "test"         : test(args)
         case _              : print("Bad command.")
          
      
@@ -111,10 +119,22 @@ def get_hash_object(args):
 def get_update_index(args):
     print(args)
     print(args.path)
-    y =Object(args.path)
-    y.update_index()
+    path =os.path.join(os.getcwd(),".git" ,"index")
+    print(path)
+    print(os.path.exists(path))
 
+    # y =Object(args.path)
+    # # repo = one() # Initialize the repository
+    # # repo.update_index(args.path)  
+    # y.update_index()
+    # y.read_index()
 
+def test(args):
+    
+   
+    index_file_path = '.git/index'  # Path to the Git index file
+    git_index_reader = GitIndexReader(index_file_path)
+    git_index_reader.display_index_data()
 
 def  get_write_tree(args):
      print(args)

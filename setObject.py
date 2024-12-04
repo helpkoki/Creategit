@@ -1,6 +1,7 @@
 import hashlib
 import os
 import zlib
+import struct
 
 class Object:
     def __init__(self, file):
@@ -60,20 +61,23 @@ class Object:
     def  hash_object_write(self):
          self.store_object()
 
-    def update_index(self):
-        indexFile = os.path.join(self.gitdir, "index")
+    def   create_empty_index(self):
+          indexFile = os.path.join(self.gitdir, "index")
         
-        # Check if index file exists, create if not        
-        # Get hash value
-        value = self.hash_object()  # Assuming this returns a valid SHA-1 hash.
-        
-        # Format the index entry correctly
-        format_entry = f"100644 {value} 0\t{os.path.basename(self.tohash)}\n"
-        print(format_entry)
+          #step 1:Create the header 
+          signature =b'DIRC'
+          version =2
+          entries = 0
 
-        # Write the formatted string to the index file in binary mode
-        with open(indexFile, "ab") as file:  # Append in binary mode
-            file.write(format_entry.encode('utf-8'))
+          # Pack header: <signature (4 bytes), version (4 bytes), entries (4 bytes)>
+          header = struct.pack(">4sII", signature, version, entries)
+          print(header)
+          try:
+            with open(indexFile, "wb") as file:
+                file.write(header)
+          except IOError as e:
+            print(f"Error creating index file: {e}")
+
         
 
     def read_index(self):
@@ -84,9 +88,11 @@ class Object:
             return
 
         with open(indexFile, "rb") as file:
-            data = file.read().decode('utf-8')  # Read binary and decode to string
+             data = file.read()  # Read binary and decode to string
         
         # Split entries by newline to handle multiple lines
+        print("DATA:")
+        print(data)
         entries = data.strip().split("\n")
         for entry in entries:
             mode, hash_value, stage, path = entry.split(maxsplit=3)
@@ -103,3 +109,12 @@ class Object:
          with open(index_file ,"r") as f:
               for line in f :
                   print(line)  
+
+    def  update_index(self):
+         indexFile = os.path.join(self.gitdir, "index")
+         if  not(os.path.exists(indexFile)):
+             self.create_empty_index()
+             print("PASSED")
+
+
+            
