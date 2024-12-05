@@ -126,3 +126,4 @@ class GitObject(object):
         """
          tag_data = content.decode('utf-8')
          print(tag_data)
+    

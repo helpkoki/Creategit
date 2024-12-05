@@ -7,13 +7,12 @@ from setObject import Object
 from GitRepository import GitRepository
 from add import one
 from read import GitIndexReader
-from read import decode
 # Initialize the repository in the current working directory
 
 argparser = argparse.ArgumentParser(description="The stupidest content tracker")
 
 argsubparsers = argparser.add_subparsers(title="Commands", dest="command")
-argsubparsers.required = True
+argsubparsers.required = True 
 
 # `init` command
 argsp = argsubparsers.add_parser("init", help="Initialize a new, empty repository.")
@@ -130,11 +129,24 @@ def get_update_index(args):
     # y.read_index()
 
 def test(args):
-    
+    print("TEST CASE")
    
     index_file_path = '.git/index'  # Path to the Git index file
-    git_index_reader = GitIndexReader(index_file_path)
-    git_index_reader.display_index_data()
+    # git_index_reader = GitIndexReader(index_file_path)
+    # git_index_reader.display_index_data()
+
+    y=Object(index_file_path)
+    w = y.read_byte()
+    x=y.read_index_header()
+    print(x)
+    print(w)
+
+    print()
+
+    h =y.read_all_entries()
+    print(h)
+
+
 
 def  get_write_tree(args):
      print(args)
