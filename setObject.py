@@ -4,18 +4,22 @@ import zlib
 import struct
 
 class Object:
+      
+    
+
     def __init__(self, file):
         self.worktree = os.getcwd()
         self.gitdir = os.path.join(self.worktree, ".git")
         self.tohash = os.path.join(self.worktree, file)
+        self.indexFile = os.path.join(self.gitdir, "index")
 
         # Ensure we're in a Git repository
         if not os.path.isdir(self.gitdir):
             raise Exception(f"Not a Git repository: {self.worktree}")
 
-        # Ensure the file to hash exists
-        if not os.path.isfile(self.tohash):
-            raise Exception(f"Could not open: {self.tohash} for reading: No such file or directory")
+        # # Ensure the file to hash exists
+        # if not os.path.isfile(self.tohash):
+        #     raise Exception(f"Could not open: {self.tohash} for reading: No such file or directory")
 
     def wrap_file(self, file_path):
         """Read the file content and prepare it for hashing."""
@@ -61,23 +65,6 @@ class Object:
     def  hash_object_write(self):
          self.store_object()
 
-    def   create_empty_index(self):
-          indexFile = os.path.join(self.gitdir, "index")
-        
-          #step 1:Create the header 
-          signature =b'DIRC'
-          version =2
-          entries = 0
-
-          # Pack header: <signature (4 bytes), version (4 bytes), entries (4 bytes)>
-          header = struct.pack(">4sII", signature, version, entries)
-          print(header)
-          try:
-            with open(indexFile, "wb") as file:
-                file.write(header)
-          except IOError as e:
-            print(f"Error creating index file: {e}")
-
     def  create_tree(self):
          index_file = os.path.join(self.gitdir, "index")
 
@@ -108,13 +95,6 @@ class Object:
         for entry in entries:
             mode, hash_value, stage, path = entry.split(maxsplit=3)
             print(f"Mode: {mode}, Hash: {hash_value}, Stage: {stage}, Path: {path}")
-
-    
-    def  update_index(self):
-         indexFile = os.path.join(self.gitdir, "index")
-         if  not(os.path.exists(indexFile)):
-             self.create_empty_index()
-             print("PASSED")
 
     def  read_byte(self):
          indexFile = os.path.join(self.gitdir, "index")
@@ -213,3 +193,62 @@ class Object:
                 entries.append(entry)
 
         return entries
+    
+    def create_index_file(self ,addfile):     
+        #step 1:Create the header 
+        signature =b'DIRC'.necode("ascii")
+        version =2
+        entries = 1     
+
+
+
+        if not os.path.exists(self.indexFile):
+            with open(self.indexFile,"wb") as file:
+                  header =struct.pack(">4sII", signature, version, entries)
+                  file.write(header) 
+        print(header)
+        
+    def create_index(self, entries):
+   
+        indexFile = os.path.join(self.gitdir, "index")
+
+        with open(indexFile, "wb") as file:
+            # Step 1: Write the header
+            signature = b"DIRC"  # 4-byte signature
+            version = 2  # 4-byte version number
+            num_entries = len(entries)  # 4-byte number of entries
+
+            header = struct.pack(">4sII", signature, version, num_entries)
+            file.write(header)
+
+            # Step 2: Write each entry
+            for entry in entries:
+                # Fixed-length fields (62 bytes)
+                ctime = entry.get("ctime", 0)
+                ctime_ns = entry.get("ctime_ns", 0)
+                mtime = entry.get("mtime", 0)
+                mtime_ns = entry.get("mtime_ns", 0)
+                dev = entry.get("dev", 0)
+                ino = entry.get("ino", 0)
+                mode = entry.get("mode", 0o100644)  # Default: regular file with 644 permissions
+                uid = entry.get("uid", 0)
+                gid = entry.get("gid", 0)
+                size = entry.get("size", 0)
+                sha1 = bytes.fromhex(entry.get("sha1", "0" * 40))  # SHA-1 as 20 bytes
+                flags = len(entry.get("file_name", ""))  # File name length as flags
+
+                # Pack fixed-length fields
+                fixed_part = struct.pack(">10I20sH", ctime, ctime_ns, mtime, mtime_ns,
+                                        dev, ino, mode, uid, gid, size, sha1, flags)
+
+                file.write(fixed_part)
+
+                # Variable-length field: file name
+                file_name = entry["file_name"].encode("utf-8")
+                file.write(file_name + b"\x00")  # Null-terminated
+
+                # Align to 8-byte boundary
+                entry_length = 62 + len(file_name) + 1  # Fixed part + file name + null byte
+                padding = (8 - (entry_length % 8)) % 8
+                file.write(b"\x00" * padding)
+                print(f"Index file created at {indexFile}")
