@@ -252,3 +252,48 @@ class Object:
                 padding = (8 - (entry_length % 8)) % 8
                 file.write(b"\x00" * padding)
                 print(f"Index file created at {indexFile}")
+
+
+
+    def create_entry(file_path, repo_root):
+            """
+            Create an entry dictionary for the Git index file.
+
+            Parameters:
+            - file_path: Full path to the file.
+            - repo_root: Root directory of the repository.
+
+            Returns:
+            - Dictionary representing the entry.
+            """
+            if not os.path.exists(file_path):
+                raise FileNotFoundError(f"{file_path} does not exist")
+
+            # File stats
+            stats = os.stat(file_path)
+            
+            # Compute SHA-1 hash of file contents
+            with open(file_path, "rb") as f:
+                file_contents = f.read()
+                sha1 = hashlib.sha1(file_contents).hexdigest()
+
+            # File name relative to repo root
+            file_name = os.path.relpath(file_path, repo_root)
+
+            # Create entry dictionary
+            entry = {
+                "ctime": int(stats.st_ctime),            # Last status change time (seconds)
+                "ctime_ns": int((stats.st_ctime % 1) * 1e9),  # Nanoseconds part
+                "mtime": int(stats.st_mtime),            # Last modification time (seconds)
+                "mtime_ns": int((stats.st_mtime % 1) * 1e9),  # Nanoseconds part
+                "dev": stats.st_dev,                    # Device number
+                "ino": stats.st_ino,                    # Inode number
+                "mode": stats.st_mode,                  # File mode (permissions)
+                "uid": stats.st_uid,                    # User ID
+                "gid": stats.st_gid,                    # Group ID
+                "size": stats.st_size,                  # File size in bytes
+                "sha1": sha1,                           # SHA-1 hash
+                "file_name": file_name                  # Relative file name
+            }
+
+            return entry
