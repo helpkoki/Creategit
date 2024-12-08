@@ -17,9 +17,9 @@ class Object:
         if not os.path.isdir(self.gitdir):
             raise Exception(f"Not a Git repository: {self.worktree}")
 
-        # # Ensure the file to hash exists
-        # if not os.path.isfile(self.tohash):
-        #     raise Exception(f"Could not open: {self.tohash} for reading: No such file or directory")
+        # Ensure the file to hash exists
+        if not os.path.isfile(self.tohash):
+            raise Exception(f"Could not open: {self.tohash} for reading: No such file or directory")
 
     def wrap_file(self, file_path):
         """Read the file content and prepare it for hashing."""
@@ -317,3 +317,7 @@ class Object:
             }
 
             return entry
+    
+    def add_to_index_entry( self,file_path ,repo_root):
+        entry = self.create_entry(file_path, repo_root)
+        self.index.append(entry)

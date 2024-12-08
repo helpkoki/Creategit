@@ -117,10 +117,10 @@ def get_hash_object(args):
 
 def get_update_index(args):
     print(args)
-    print(args.path)
-    path =os.path.join(os.getcwd(),".git" ,"index")
-    print(path)
-    print(os.path.exists(path))
+    # print(args.path)
+    # path =os.path.join(os.getcwd(),".git" ,"index")
+    # print(path)
+    # print(os.path.exists(path))
 
     # y =Object(args.path)
     # # repo = one() # Initialize the repository
