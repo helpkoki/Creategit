@@ -68,14 +68,34 @@ class Object:
     def  create_tree(self):
          index_file = os.path.join(self.gitdir, "index")
 
-         if not os.path.exists(index_file):
-            print("Index file does not exist.")
-            return
-         
-         entries = []
-         with open(index_file ,"r") as f:
-              for line in f :
-                  print(line)  
+         entries = self.read_all_entries()  # Read all index entries
+         if not entries:
+            print("No entries in the index to create a tree.")
+            return None
+
+         tree_content = b""
+        
+            # Format each entry: <file_mode> <file_name>\0<hash>
+         for entry in entries:
+                mode = f"{entry['mode']:o}"  # Convert mode to octal string
+                file_name = entry["file_name"]
+                sha1 = bytes.fromhex(entry["sha1"])
+                tree_content += f"{mode} {file_name}\0".encode("utf-8") + sha1
+
+            # Prepend header: "tree <size>\0"
+         tree_object = f"tree {len(tree_content)}\0".encode("utf-8") + tree_content
+
+            # Hash and store the tree object
+         sha = hashlib.sha1(tree_object).hexdigest()
+         dir_path = os.path.join(self.gitdir, "objects", sha[:2])
+         file_path = os.path.join(dir_path, sha[2:])
+         os.makedirs(dir_path, exist_ok=True)
+
+         with open(file_path, "wb") as f:
+            f.write(zlib.compress(tree_object))
+
+         print(f"Tree object created: {sha}")
+         return sha 
  
 
     def read_index(self):

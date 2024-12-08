@@ -136,47 +136,46 @@ def test(args):
     # git_index_reader.display_index_data()
 
     y=Object(index_file_path)
-    # w = y.read_byte()
-    # x=y.read_index_header()
-    # print(x)
-    # print(w)
+    w = y.read_byte()
+    x=y.read_index_header()
+    print(x)
+    
 
-    # print()
+    print()
 
-    # h =y.read_all_entries()
-    # print(h)
-    entries = [
-        {
-            "ctime": 1690000000,
-            "ctime_ns": 0,
-            "mtime": 1690000100,
-            "mtime_ns": 0,
-            "dev": 16777220,
-            "ino": 123456,
-            "mode": 0o100644,
-            "uid": 1000,
-            "gid": 1000,
-            "size": 12345,
-            "sha1": "d3b07384d113edec49eaa6238ad5ff00",
-            "file_name": "example.txt"
-        },
-        {
-            "ctime": 1690000200,
-            "ctime_ns": 0,
-            "mtime": 1690000300,
-            "mtime_ns": 0,
-            "dev": 16777220,
-            "ino": 654321,
-            "mode": 0o100755,
-            "uid": 1000,
-            "gid": 1000,
-            "size": 54321,
-            "sha1": "a9b9f04336ce0181a08e774e01113b31",
-            "file_name": "script.sh"
-        }
-    ]
+    h =y.read_all_entries()
+    print(h)
+    # entries = [
+    #     {
+    #          "ctime_ns": 0,
+    #         "mtime": 1690000100,
+    #         "mtime_ns": 0,
+    #         "dev": 16777220,
+    #         "ino": 123456,
+    #         "mode": 0o100644,
+    #         "uid": 1000,
+    #         "gid": 1000,
+    #         "size": 12345,
+    #         "sha1": "d3b07384d113edec49eaa6238ad5ff00",
+    #         "file_name": "example.txt"
+    #     },
+    #     {
+    #         "ctime": 1690000200,
+    #         "ctime_ns": 0,
+    #         "mtime": 1690000300,
+    #         "mtime_ns": 0,
+    #         "dev": 16777220,
+    #         "ino": 654321,
+    #         "mode": 0o100755,
+    #         "uid": 1000,
+    #         "gid": 1000,
+    #         "size": 54321,
+    #         "sha1": "a9b9f04336ce0181a08e774e01113b31",
+    #         "file_name": "script.sh"
+    #     }
+    # ]
 
-    h =y.create_index(entries)
+    # h =y.create_index(entries)
 
 
 
