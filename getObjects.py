@@ -20,26 +20,24 @@ class GitObject(object):
         # Save the correct file path
         self.object_path = object_path
 
+       #Read and decompress the Git object.
     def read_git_object(self):
-        """Read and decompress the Git object."""
         with open(self.object_path, "rb") as f:
             compressed_object = f.read()
             return zlib.decompress(compressed_object)
-
+      
+#  Parse the decompressed Git object to extract its type and content.
+#  Git objects start with "<type> <size>\0".
     def parse_object(self, decompressed_data):
-        """
-        Parse the decompressed Git object to extract its type and content.
-        Git objects start with "<type> <size>\0".
-        """
         try:
             header, content = decompressed_data.split(b'\x00', 1)
             object_type, _size = header.split(b' ', 1)
             return object_type.decode('utf-8'), content
         except Exception as e:
             raise Exception(f"Failed to parse object: {e}")
-
+        
+       # Display the type of the Git object.
     def cat_file_t(self):
-        """Display the type of the Git object."""
         decompressed_data = self.read_git_object()
         object_type, _content = self.parse_object(decompressed_data)
         print(object_type)
