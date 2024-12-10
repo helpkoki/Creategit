@@ -13,7 +13,7 @@ __pycache__/
 
 # Ignore virtual environment
 one/
-testgit /
+old_file /
 
 # Ignore system files
 .DS_Store
