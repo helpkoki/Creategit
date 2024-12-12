@@ -13,7 +13,7 @@ __pycache__/
 
 # Ignore virtual environment
 one/
-old_file /
+old_file/
 
 # Ignore system files
 .DS_Store
