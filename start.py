@@ -24,6 +24,15 @@ def main():
      add_parser.add_argument('paths' , nargs='+' ,metavar='path' ,
                              help='path(s) of files to add ')
      
+
+     add_parser =sub_parser.add_parser('treee', help='it create a tree from the index')
+     add_parser.add_argument('paths' , nargs='+' ,metavar='path' ,
+                             help='path(s) of files to add ')
+     
+
+     
+     
+     
      sub_parser = sub_parser.add_parser(
                                   "test",
                                    help="it updates the index used for `add` and `commit` commands")
