@@ -25,14 +25,9 @@ def main():
                              help='path(s) of files to add ')
      
 
-     add_parser =sub_parser.add_parser('treee', help='it create a tree from the index')
-     add_parser.add_argument('paths' , nargs='+' ,metavar='path' ,
-                             help='path(s) of files to add ')
-     
+     add_parser =sub_parser.add_parser('tree', help='it create a tree from the index')
 
-     
-     
-     
+
      sub_parser = sub_parser.add_parser(
                                   "test",
                                    help="it updates the index used for `add` and `commit` commands")
@@ -42,6 +37,7 @@ def main():
 
      match args.command:
           case 'init'        : init(args)
+          case  'tree'       : tree(args)
           case  'test'       : test(args)
           case _             : print("Bad command.") 
         
@@ -59,5 +55,6 @@ def  test(args):
      y =fileManagerTool() 
      print(os.getcwd())
      
-
+def tree(args):
+     print("tree")
      
