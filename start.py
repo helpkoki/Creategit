@@ -57,4 +57,9 @@ def  test(args):
      
 def tree(args):
      print("tree")
+     x =Index()
+     # print(x.write_tree()) 
+     x.commit('jeioiwi' ,None)
+     y =fileManagerTool() 
+     print(os.getcwd())
      
