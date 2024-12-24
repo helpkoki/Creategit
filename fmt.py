@@ -50,3 +50,6 @@ class  fileManagerTool:
               return self.read_file_byte(master_path).decode().strip()
            except FileNotFoundError:
              return None
+           
+       def repo_path(repo=".", *path):
+          return os.path.join(repo, *path)
