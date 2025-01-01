@@ -44,5 +44,8 @@ class Repository:
         except Exception as e:
             print(f"Error during repository initialization: {e}")
 
+    def addEnvirLable():
+         print("adding env")
+
 
     
