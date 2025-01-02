@@ -348,4 +348,5 @@ class Object:
         master_path = os.path.join('.git', 'refs', 'heads', 'master')
         write_file(master_path, (sha1 + '\n').encode())
         print('committed to master: {:7}'.format(sha1))
-        return sha1
+        return sha1killnaruto
+    
