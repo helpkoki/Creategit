@@ -322,12 +322,12 @@ class Object:
         entry = self.create_entry(file_path, repo_root)
         self.index.append(entry)
     
-    def commit(message, author):
+    def commit(self ,message, author):
         """Commit the current state of the index to master with given message.
         Return hash of commit object.
         """
         tree = write_tree()
-        parent = get_local_master_hash()
+        parent =  ()
         timestamp = int(time.mktime(time.localtime()))
         utc_offset = -time.timezone
         author_time = '{} {}{:02}{:02}'.format(

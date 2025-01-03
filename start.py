@@ -39,6 +39,7 @@ def main():
           case 'init'        : init(args)
           case  'tree'       : tree(args)
           case  'test'       : test(args)
+          case  'commit'       : commit(args)
           case _             : print("Bad command.") 
         
 
@@ -62,4 +63,7 @@ def tree(args):
      x.commit('jeioiwi' ,None)
      y =fileManagerTool() 
      print(os.getcwd())
-     
+
+        
+def   commit(args):
+      print()
