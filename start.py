@@ -7,7 +7,7 @@ from fmt import fileManagerTool
 
 
 def main():
-     argparser = argparse.ArgumentParser(description="The stupidest content tracker")
+     argparser = argparse.ArgumentParser(description="The simply content tracker")
 
      sub_parser = argparser.add_subparsers(title="Command", dest="command")
      sub_parser.required = True 
